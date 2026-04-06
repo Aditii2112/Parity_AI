@@ -1,0 +1,36 @@
+# Environment and secrets (never commit)
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Google OAuth client secrets and tokens
+credentials.json
+token.json
+token.pickle
+*client_secret*.json
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# IDE and OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs and temp
+*.log
+.pytest_cache/
+.coverage
+htmlcov/
