@@ -6,7 +6,7 @@ Parity AI is a small stack that connects a LangGraph ReAct agent to Slack and Gm
 
 ## Why "Parity"?
 
-In plain language, *parity* means a state of being equal or aligned. Parity AI is named for that idea: the agent is meant to keep what you see in **Slack** and **Gmail** in a coherent, comparable picture—so your conversations and mail can be checked against each other instead of living in separate silos. The goal is parity between those channels when you ask questions that span both.
+*Parity* refers to the state of being equal. The agent is meant to help keep **Slack** and **Gmail** at parity: a single place to reason across both so email and chat are not stuck in separate silos.
 
 ## What it does
 
