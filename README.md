@@ -4,6 +4,10 @@ Parity AI is a small stack that connects a LangGraph ReAct agent to Slack and Gm
 
 **Repository:** [https://github.com/Aditii2112/Parity_AI](https://github.com/Aditii2112/Parity_AI)
 
+## Why "Parity"?
+
+In plain language, *parity* means a state of being equal or aligned. Parity AI is named for that idea: the agent is meant to keep what you see in **Slack** and **Gmail** in a coherent, comparable picture—so your conversations and mail can be checked against each other instead of living in separate silos. The goal is parity between those channels when you ask questions that span both.
+
 ## What it does
 
 - **Backend** (`main.py`, `backend_core.py`): On startup, spawns MCP servers for Slack and Gmail (via `npx`), loads their tools into a single agent backed by Google Gemini, and serves HTTP endpoints.
@@ -90,3 +94,10 @@ Copy `.env.example` to `.env` and fill in values locally. Never push `.env`, `cr
 | `frontend.py` | Streamlit UI |
 | `get_gmail_token.py` | Local OAuth flow for Gmail read scope |
 
+## Future expansion
+
+Planned directions include wiring the same agent pattern to **Jira** (issues, sprints, and project context) and **GitHub** (repositories, pull requests, and development activity), so Parity can eventually align engineering and communication sources alongside Slack and Gmail.
+
+## License
+
+Add a license file if you intend to open-source under specific terms; none is included by default.
