@@ -98,6 +98,3 @@ Copy `.env.example` to `.env` and fill in values locally. Never push `.env`, `cr
 
 Planned directions include wiring the same agent pattern to **Jira** (issues, sprints, and project context) and **GitHub** (repositories, pull requests, and development activity), so Parity can eventually align engineering and communication sources alongside Slack and Gmail.
 
-## License
-
-Add a license file if you intend to open-source under specific terms; none is included by default.
