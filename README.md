@@ -90,6 +90,3 @@ Copy `.env.example` to `.env` and fill in values locally. Never push `.env`, `cr
 | `frontend.py` | Streamlit UI |
 | `get_gmail_token.py` | Local OAuth flow for Gmail read scope |
 
-## License
-
-Add a license file if you intend to open-source under specific terms; none is included by default.
