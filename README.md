@@ -7,7 +7,7 @@ Parity AI is a small stack that connects a LangGraph ReAct agent to Slack and Gm
 ## Why "Parity"?
 
 *Parity* refers to the state of being equal. The agent is meant to help keep **Slack** and **Gmail** at parity: a single place to reason across both so email and chat are not stuck in separate silos.
-
+![Dashboard](Dashboard.jpeg)
 ## What it does
 
 - **Backend** (`main.py`, `backend_core.py`): On startup, spawns MCP servers for Slack and Gmail (via `npx`), loads their tools into a single agent backed by Google Gemini, and serves HTTP endpoints.
