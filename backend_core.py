@@ -12,6 +12,7 @@ class MCPBackend:
         self.client = None
 
     async def initialize(self):
+        
         configs = {
             "slack": {
                 "command": "npx",
@@ -20,6 +21,11 @@ class MCPBackend:
                 "env": {
                     "SLACK_BOT_TOKEN": os.getenv("SLACK_BOT_TOKEN"),
                     "SLACK_TEAM_ID": os.getenv("SLACK_TEAM_ID"),
+                    **(
+                        {"SLACK_CHANNEL_IDS": os.getenv("SLACK_CHANNEL_IDS")}
+                        if os.getenv("SLACK_CHANNEL_IDS")
+                        else {}
+                    ),
                 }
             },
             "gmail": {
@@ -36,7 +42,7 @@ class MCPBackend:
         }
 
         # Stability: 1.5-flash is the most resilient to versioning quirks
-        model = ChatGoogleGenerativeAI(model="gemini-2.5-flash-lite", temperature=0)
+        model = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
 
         print("🚀 Connecting to MCP Servers...")
         self.client = MultiServerMCPClient(configs)
@@ -48,18 +54,19 @@ class MCPBackend:
         return self.agent
 
     async def query(self, user_input: str):
+    
         # We use a "Command-Style" prompt which works better for Lite models
-        refined_query = f"""
-        TASK: {user_input}
-        
-        STRICT OPERATING PROCEDURES:
-        1. DO NOT ask for clarification or more information. 
-        2. ASSUME the name provided is the primary search keyword.
-        3. EXECUTE 'gmail_search_messages' immediately using the name.
-        4. EXECUTE 'slack_search_messages' immediately using the name.
-        5. If you find multiple 'Ronits', summarize findings for the most recent one.
-        6. If tools return no results, only then state you found nothing.
-        """
+        refined_query = refined_query = f"""
+    USER REQUEST: {user_input}
+
+    INTERNAL INSTRUCTIONS:
+    1. You are a cross-platform data auditor. 
+    2. Your goal is to find messages from the person mentioned in the USER REQUEST on both Gmail and Slack.
+    3. Look at your available tools. Use the one that allows for keyword searching on Slack (likely named 'search_messages' or similar).
+    4. Use the Gmail search tool for the same person.
+    5. Compare the results. If there is a status change (e.g., 'Go-live' vs 'Postponed'), highlight it clearly.
+    6. Do not report tool names to the user. Just provide the final analysis.
+    """
         
         inputs = {"messages": [("human", refined_query)]}
         result = await self.agent.ainvoke(inputs)

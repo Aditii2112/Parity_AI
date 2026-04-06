@@ -1,33 +1,51 @@
 import streamlit as st
 import requests
+from datetime import datetime
 
-st.set_page_config(page_title="Intelligence Hub", page_icon="📊")
+st.set_page_config(page_title="Parity AI", page_icon="%", layout="wide")
 
-st.title("Cross-Platform Intelligence")
-st.markdown("Query your Slack and Gmail data using autonomous AI agents.")
+# Sidebar for status
+with st.sidebar:
+    st.title("System Status")
+    st.success("Connected to MCP Core")
+    st.info(f"Last Sync: {datetime.now().strftime('%H:%M:%S')}")
+    st.divider()
+    st.markdown("🔍 **Active Scopes:**\n* Gmail Search\n* Slack Search\n* Conflict Logic")
 
-# User Input
-user_query = st.text_input("What would you like to check?", 
-                          placeholder="e.g., Check for contradictions between Aditi's emails and Slack.")
+st.title("Parity AI")
+st.caption("Autonomous Cross-Platform Data Auditor")
 
-if st.button("Analyze"):
+user_query = st.text_input("Query", placeholder="e.g., Check Suyash's latest updates for contradictions...")
+
+if st.button("Analyze Pipeline"):
     if user_query:
-        with st.spinner(" Agent is navigating platforms..."):
+        # Visual feedback for the "Agentic" process
+        status_cols = st.columns(3)
+        with status_cols[0]: st.write("Fetching Gmail...")
+        with status_cols[1]: st.write("Scanning Slack...")
+        with status_cols[2]: st.write("Auditing Context...")
+        
+        with st.spinner("Processing..."):
             try:
                 response = requests.post("http://localhost:8000/ask", json={"text": user_query})
                 if response.status_code == 200:
                     answer = response.json().get("answer")
                     
+                    # 🚩 CONTRADICTION CHECK
+                    # We look for keywords the agent uses when it finds a mismatch
+                    is_conflict = any(word in answer.upper() for word in ["CONTRADICTION", "STATUS CHANGE", "MISMATCH", "CONFLICT"])
+                    
                     st.divider()
-                    st.subheader("🤖 Agent Analysis")
-                    # Using a container with a border for a professional look
-                    with st.container(border=True):
-                        st.write(answer)
-                else:
-                    st.error("The agent encountered an error processing the request.")
-            except Exception as e:
-                st.error(f"Backend Connection Failed: {e}")
-    else:
-        st.warning("Please enter a query.")
+                    
+                    if is_conflict:
+                        st.error("⚠️ CRITICAL CONTRADICTION DETECTED")
+                    else:
+                        st.success("PLATFORM DATA ALIGNED")
 
-st.sidebar.info("Connected to: Slack MCP & Gmail MCP")
+                    with st.container(border=True):
+                        st.markdown(answer)
+                        
+                else:
+                    st.error("Backend returned an error. Check terminal.")
+            except Exception as e:
+                st.error(f"Connection Failed: {e}")
